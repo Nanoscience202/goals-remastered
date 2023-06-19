@@ -23,8 +23,9 @@ class View {
         this.$$.goalDetails = __classPrivateFieldGet(this, _View_instances, "m", _View_qsAll).call(this, '[data-id="goal-details"]');
         this.$$.edit = __classPrivateFieldGet(this, _View_instances, "m", _View_qsAll).call(this, '[data-id="edit"]');
         this.$$.delete = __classPrivateFieldGet(this, _View_instances, "m", _View_qsAll).call(this, '[data-id="delete"]');
+        this.$$.checkIcon = __classPrivateFieldGet(this, _View_instances, "m", _View_qsAll).call(this, '[data-id="check-icon"]');
     }
-    //* key bindings
+    //* event bindings
     bindScrollButtonEvent(handler) {
         this.$.navBtn.addEventListener("click", handler);
     }
@@ -52,6 +53,13 @@ class View {
     bindDeleteGoalEvent(handler) {
         this.$$.delete.forEach((de) => de.addEventListener("click", (e) => handler(e, de)));
     }
+    bindCheckIconEvent(handlerOnMouseOver, handlerOnMouseOut, handlerOnClick) {
+        this.$$.checkIcon.forEach((icon) => {
+            icon.addEventListener("mouseover", (e) => handlerOnMouseOver(e, icon));
+            icon.addEventListener("mouseout", (e) => handlerOnMouseOut(e, icon));
+            icon.addEventListener("click", (e) => handlerOnClick(e, icon));
+        });
+    }
     //* Ui functions
     collapseHeights() {
         this.$$.goalDetails.forEach((goal) => {
@@ -72,7 +80,7 @@ class View {
             newGoal.id = `${i}`;
             newGoal.innerHTML = `
                 <div class="goal-title">
-                    <i class="fa fa-square check-icon"></i>
+                    <i class="fa fa-square check-icon" data-id="check-icon" data-num="${i}"></i>
                     <span>${goalDatas[i].title}</span>
                     <span class="goal-date yellow">${goalDatas[i].dueDate}</span>
                 </div>
@@ -95,6 +103,7 @@ class View {
         this.$$.goalDetails = __classPrivateFieldGet(this, _View_instances, "m", _View_qsAll).call(this, '[data-id="goal-details"]');
         this.$$.edit = __classPrivateFieldGet(this, _View_instances, "m", _View_qsAll).call(this, '[data-id="edit"]');
         this.$$.delete = __classPrivateFieldGet(this, _View_instances, "m", _View_qsAll).call(this, '[data-id="delete"]');
+        this.$$.checkIcon = __classPrivateFieldGet(this, _View_instances, "m", _View_qsAll).call(this, '[data-id="check-icon"]');
     }
 }
 _View_instances = new WeakSet(), _View_qs = function _View_qs(element) {

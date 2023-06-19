@@ -20,9 +20,10 @@ export default class View {
         this.$$.goalDetails = this.#qsAll('[data-id="goal-details"]');
         this.$$.edit = this.#qsAll('[data-id="edit"]');
         this.$$.delete = this.#qsAll('[data-id="delete"]');
+        this.$$.checkIcon = this.#qsAll('[data-id="check-icon"]');
     }
 
-    //* key bindings
+    //* event bindings
     bindScrollButtonEvent(handler: EventListener) {
         this.$.navBtn.addEventListener("click", handler);
     }
@@ -59,10 +60,26 @@ export default class View {
         );
     }
 
-    bindDeleteGoalEvent(handler: (e:Event, el: HTMLElement) => void) {
+    bindDeleteGoalEvent(handler: (e: Event, el: HTMLElement) => void) {
         this.$$.delete.forEach((de) =>
             de.addEventListener("click", (e) => handler(e, de))
         );
+    }
+
+    bindCheckIconEvent(
+        handlerOnMouseOver: (e: Event, el: HTMLElement) => void,
+        handlerOnMouseOut: (e: Event, el: HTMLElement) => void,
+        handlerOnClick: (e: Event, el: HTMLElement) => void
+    ) {
+        this.$$.checkIcon.forEach((icon) => {
+            icon.addEventListener("mouseover", (e) =>
+                handlerOnMouseOver(e, icon)
+            );
+            icon.addEventListener("mouseout", (e) =>
+                handlerOnMouseOut(e, icon)
+            );
+            icon.addEventListener("click", (e) => handlerOnClick(e, icon));
+        });
     }
 
     //* Ui functions
@@ -87,7 +104,7 @@ export default class View {
 
             newGoal.innerHTML = `
                 <div class="goal-title">
-                    <i class="fa fa-square check-icon"></i>
+                    <i class="fa fa-square check-icon" data-id="check-icon" data-num="${i}"></i>
                     <span>${goalDatas[i].title}</span>
                     <span class="goal-date yellow">${goalDatas[i].dueDate}</span>
                 </div>
@@ -112,6 +129,7 @@ export default class View {
         this.$$.goalDetails = this.#qsAll('[data-id="goal-details"]');
         this.$$.edit = this.#qsAll('[data-id="edit"]');
         this.$$.delete = this.#qsAll('[data-id="delete"]');
+        this.$$.checkIcon = this.#qsAll('[data-id="check-icon"]');
     }
 
     /**

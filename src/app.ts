@@ -22,7 +22,9 @@ function updateGoal(
     store: Store,
     f3: (el: HTMLElement) => void,
     f4: (e: Event, el: HTMLElement) => void,
-    f5: (e: Event, el: HTMLElement) => void
+    f5: (e: Event, el: HTMLElement) => void,
+    f6: (e: Event, el: HTMLElement) => void,
+    f7: (e: Event, el: HTMLElement) => void
 ) {
     view.updateGoalSection(store.state.goalDatas);
     store.setInitialData(view.$$.goalDetails);
@@ -30,6 +32,7 @@ function updateGoal(
     view.bindGoalsShowEvent(f3);
     view.bindEditGoalEvent(f4);
     view.bindDeleteGoalEvent(f5);
+    view.bindCheckIconEvent(f6, f7, f5);
 }
 
 function init() {
@@ -335,7 +338,7 @@ function init() {
                 // add back the event listeners
                 view.bindCloseGoalEvent(f1);
                 view.bindOnSubmitEvent(f2);
-                updateGoal(view, store, f3, f4, f5);
+                updateGoal(view, store, f3, f4, f5, f6, f7);
             },
         });
     }
@@ -363,7 +366,7 @@ function init() {
             editGoal.innerHTML = `
                 <form style="font-size: 7rem;">
                     <div class="goal-title">
-                        <i class="fa fa-square check-icon"></i>
+                        <i class="fa fa-square check-icon" data-id="check-icon" data-num="${id}"></i>
                         <span contenteditable class="edit" data-id="editGoalTitle">${data.title}</span>
                         <span class="goal-date edit" data-id="editGoalDate" contenteditable>${data.dueDate}</span>
                     </div>
@@ -405,7 +408,7 @@ function init() {
                     dueDate: editGoalDate,
                 };
                 store.editGoal(id, data);
-                updateGoal(view, store, f3, f4, f5);
+                updateGoal(view, store, f3, f4, f5, f6, f7);
 
                 // move them back up
                 const vh = window.innerHeight;
@@ -423,7 +426,7 @@ function init() {
 
             cancel.addEventListener("click", () => {
                 // goalSection.replaceChild(oldGoal, editGoal);
-                updateGoal(view, store, f3, f4, f5);
+                updateGoal(view, store, f3, f4, f5, f6, f7);
 
                 // move them back up
                 const vh = window.innerHeight;
@@ -448,7 +451,7 @@ function init() {
             const id = +el.dataset.num;
             store.deleteGoal(id);
 
-            updateGoal(view, store, f3, f4, f5);
+            updateGoal(view, store, f3, f4, f5, f6, f7);
 
             // move them back up
             const goalsList = view.$$.goals;
@@ -462,6 +465,18 @@ function init() {
         }
     }
     view.bindDeleteGoalEvent(f5);
+
+    function f6(e: Event, el: HTMLElement) {
+        e.stopImmediatePropagation();
+        el.classList.remove("fa-square");
+        el.classList.add("fa-check");
+    }
+    function f7(e: Event, el: HTMLElement) {
+        e.stopImmediatePropagation();
+        el.classList.add("fa-square");
+        el.classList.remove("fa-check");
+    }
+    view.bindCheckIconEvent(f6, f7, f5);
 }
 
 window.onload = init;
