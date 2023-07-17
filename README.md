@@ -4,4 +4,4 @@ typescript, popular animation javascript libraries such as [anime.js](https://an
  MVC pattern. <br />
 Will remake this website with React after learning React.
 
-See my most recent app: [sushi-chanceux-reaact](https://github.com/Nanoscience202/sushi-chanceux-react)
+See my most recent app: [sushi-chanceux-react](https://github.com/Nanoscience202/sushi-chanceux-react)
